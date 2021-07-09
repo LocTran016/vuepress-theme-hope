@@ -1,29 +1,24 @@
-import { getRootLangPath } from "@mr-hope/vuepress-shared";
+import { addViteOptimizeDeps, getLocales } from "@mr-hope/vuepress-shared";
 import { path } from "@vuepress/utils";
+import { useReadingTimePlugin } from "vuepress-plugin-reading-time2";
 import { usePalettePlugin } from "vuepress-plugin-sass-palette";
 import { pageInfoI18n, walineI18n } from "./i18n";
 
-import type { PluginI18nConvert } from "@mr-hope/vuepress-shared";
-import type { CommentOptions, PageInfoI18nConfig } from "../shared";
+import type { CommentOptions } from "../shared";
 import type { Plugin, PluginObject } from "@vuepress/core";
 
-export * from "../shared/types";
+export * from "../shared";
 
 const commentPlugin: Plugin<CommentOptions> = (options, app) => {
   const { themeConfig } = app.options;
-  const rootLangPath = getRootLangPath(app);
-  const pageInfoI18nConfig =
-    pageInfoI18n as PluginI18nConvert<PageInfoI18nConfig>;
-  const walineI18nConfig = walineI18n as PluginI18nConvert<string>;
-
-  pageInfoI18nConfig["/"] = pageInfoI18nConfig[rootLangPath];
-  walineI18nConfig["/"] = walineI18nConfig[rootLangPath];
-
   const commentOptions: CommentOptions =
     Object.keys(options).length > 0
       ? (options as CommentOptions)
       : (themeConfig.comment as CommentOptions) || { type: "disable" };
 
+  addViteOptimizeDeps(app, "@waline/client");
+
+  useReadingTimePlugin(app, { wordPerminute: options.wordPerminute });
   usePalettePlugin(app, { id: "hope" });
 
   const config: PluginObject = {
@@ -41,13 +36,11 @@ const commentPlugin: Plugin<CommentOptions> = (options, app) => {
         hint: !themeConfig.pure,
         ...commentOptions,
       },
-      PAGE_INFO_I18N: pageInfoI18nConfig,
-      WALINE_I18N: walineI18nConfig,
+      PAGE_INFO_I18N: getLocales(app, pageInfoI18n, options.pageInfoLocale),
+      WALINE_I18N: getLocales(app, walineI18n, options.walineLocale),
     }),
 
     clientAppEnhanceFiles: path.resolve(__dirname, "../client/appEnhance.js"),
-
-    plugins: [["reading-time2", { wordPerminute: options.wordPerminute }]],
   };
 
   // if (commentOptions.type === "vssue")

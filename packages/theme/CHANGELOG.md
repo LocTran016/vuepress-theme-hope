@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.5](https://github.com/Mister-Hope/vuepress-theme-hope/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2021-06-20)
+
+### Features
+
+- **theme:** update dropdown arrow ([51f1fe6](https://github.com/Mister-Hope/vuepress-theme-hope/commit/51f1fe6e868c0516dbfeedf8827017a1392969ef))
+- **theme:** update navbar ([d8a90cd](https://github.com/Mister-Hope/vuepress-theme-hope/commit/d8a90cd868582292a3a795cc1424948f56045c6a))
+
+# [2.0.0-alpha.4](https://github.com/Mister-Hope/vuepress-theme-hope/compare/v2.0.0-alpha.3...v2.0.0-alpha.4) (2021-06-14)
+
+**Note:** Version bump only for package vuepress-theme-hope
+
+# [2.0.0-alpha.3](https://github.com/Mister-Hope/vuepress-theme-hope/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2021-06-13)
+
+### Features
+
+- rebuild locales ([885ab30](https://github.com/Mister-Hope/vuepress-theme-hope/commit/885ab30af568537adfbc8e873795548865535fb5))
+- **theme:** add pwa plugin ([f45d1d2](https://github.com/Mister-Hope/vuepress-theme-hope/commit/f45d1d25d7bc23cae6028b90ca13e056170c4545))
+
 # [2.0.0-alpha.2](https://github.com/Mister-Hope/vuepress-theme-hope/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2021-06-11)
 
 ### Bug Fixes

@@ -1,5 +1,5 @@
+import { useLocaleConfig } from "@mr-hope/vuepress-shared/client";
 import { useBlogConfig, useTag } from "@mr-hope/vuepress-shared/client";
-import { useRouteLocale } from "@vuepress/client";
 import { computed, defineComponent, h, toRef } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { TagIcon } from "./icons";
@@ -10,8 +10,6 @@ import type { PropType, VNode } from "vue";
 export default defineComponent({
   name: "TagInfo",
 
-  components: { TagIcon },
-
   props: {
     tags: { type: Array as PropType<string[]>, default: (): string[] => [] },
   },
@@ -19,9 +17,8 @@ export default defineComponent({
   setup(props) {
     const route = useRoute();
     const router = useRouter();
-    const routeLocale = useRouteLocale();
 
-    const hint = computed(() => pageInfoI18n[routeLocale.value].tag);
+    const pageInfoLocale = useLocaleConfig(pageInfoI18n);
 
     const items = props.tags.length ? toRef(props, "tags") : useTag();
 
@@ -38,15 +35,13 @@ export default defineComponent({
             "span",
             commentOptions.hint !== false
               ? {
-                  ariaLabel: hint.value,
+                  ariaLabel: pageInfoLocale.value.tag,
                   "data-balloon-pos": "down",
                 }
               : {},
             [
               h(TagIcon),
-              h(
-                "ul",
-                { class: "tags-wrapper" },
+              h("ul", { class: "tags-wrapper" }, [
                 items.value.map((tag, index) =>
                   h(
                     "li",
@@ -64,8 +59,12 @@ export default defineComponent({
                       tag
                     )
                   )
-                )
-              ),
+                ),
+                h("meta", {
+                  property: "keywords",
+                  content: items.value.join(","),
+                }),
+              ]),
             ]
           )
         : null;

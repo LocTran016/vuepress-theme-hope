@@ -1,5 +1,8 @@
-import { useCategory, useBlogConfig } from "@mr-hope/vuepress-shared/client";
-import { useRouteLocale } from "@vuepress/client";
+import {
+  useCategory,
+  useBlogConfig,
+  useLocaleConfig,
+} from "@mr-hope/vuepress-shared/client";
 import { computed, defineComponent, h, toRef } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { CategoryIcon } from "./icons";
@@ -9,8 +12,6 @@ import type { PropType, VNode } from "vue";
 
 export default defineComponent({
   name: "CategoryInfo",
-
-  components: { CategoryIcon },
 
   props: {
     categories: {
@@ -22,12 +23,11 @@ export default defineComponent({
   setup(props) {
     const route = useRoute();
     const router = useRouter();
-    const routeLocale = useRouteLocale();
 
     const items = props.categories.length
       ? toRef(props, "categories")
       : useCategory();
-    const hint = computed(() => pageInfoI18n[routeLocale.value].category);
+    const pageInfoLocale = useLocaleConfig(pageInfoI18n);
     const clickable = computed(() => useBlogConfig().value !== false);
 
     const navigate = (categoryName: string): void => {
@@ -44,16 +44,14 @@ export default defineComponent({
               class: "category-info",
               ...(commentOptions.hint !== false
                 ? {
-                    ariaLabel: hint.value,
+                    ariaLabel: pageInfoLocale.value.category,
                     "data-balloon-pos": "down",
                   }
                 : {}),
             },
             [
               h(CategoryIcon),
-              h(
-                "ul",
-                { class: "categories-wrapper" },
+              h("ul", { class: "categories-wrapper" }, [
                 items.value.map((category) =>
                   h(
                     "li",
@@ -66,14 +64,16 @@ export default defineComponent({
                     },
                     h(
                       "span",
-                      {
-                        role: clickable.value ? "navigation" : "",
-                      },
+                      { role: clickable.value ? "navigation" : "" },
                       category
                     )
                   )
-                )
-              ),
+                ),
+                h("meta", {
+                  property: "articleSection",
+                  content: items.value.join(","),
+                }),
+              ]),
             ]
           )
         : null;

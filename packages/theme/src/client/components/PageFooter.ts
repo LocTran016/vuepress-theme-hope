@@ -43,12 +43,14 @@ export default defineComponent({
       frontmatter.value.copyrightText === false
         ? false
         : frontmatter.value.copyrightText ||
-          config.value.copyright ||
-          (themeLocaleData.value.author
-            ? `Copyright © ${new Date().getFullYear()} ${
-                themeLocaleData.value.author
-              }`
-            : "")
+          (config.value.copyright === false
+            ? false
+            : config.value.copyright ||
+              (themeLocaleData.value.author
+                ? `Copyright © ${new Date().getFullYear()} ${
+                    themeLocaleData.value.author
+                  }`
+                : ""))
     );
 
     return (): VNode | null =>
@@ -58,7 +60,12 @@ export default defineComponent({
               ? null
               : h(MediaLinks),
             h("div", { class: "footer", innerHTML: content.value }),
-            h("div", { class: "copyright", innerHTML: copyright.value }),
+            copyright.value
+              ? h("div", {
+                  class: "copyright",
+                  innerHTML: copyright.value,
+                })
+              : null,
           ])
         : null;
   },

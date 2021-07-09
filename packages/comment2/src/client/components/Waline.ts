@@ -1,10 +1,8 @@
-import { useThemePluginConfig } from "@mr-hope/vuepress-shared/client";
 import {
-  usePageFrontmatter,
-  usePageLang,
-  useRouteLocale,
-} from "@vuepress/client";
-import Waline from "@waline/client";
+  useLocaleConfig,
+  useThemePluginConfig,
+} from "@mr-hope/vuepress-shared/client";
+import { usePageFrontmatter, usePageLang } from "@vuepress/client";
 import {
   computed,
   defineComponent,
@@ -28,13 +26,13 @@ export default defineComponent({
   name: "Waline",
 
   setup() {
-    const lang = usePageLang();
-    const frontmatter = usePageFrontmatter<CommentPluginFrontmatter>();
     const route = useRoute();
-    const routeLocale = useRouteLocale();
+    const frontmatter = usePageFrontmatter<CommentPluginFrontmatter>();
+    const lang = usePageLang();
     const themePluginConfig = useThemePluginConfig<WalineOptions>("comment");
+    const walineLocale = useLocaleConfig(walineI18n);
 
-    let timeout: NodeJS.Timeout | null = null;
+    let id: number;
     let waline: WalineInstance | null = null;
 
     const enableComment = computed(() => {
@@ -59,30 +57,53 @@ export default defineComponent({
       resolveEnablePageViews(frontmatter.value)
     );
 
-    const initWaline = (): void => {
-      waline = Waline({
-        lang: lang.value === "zh-CN" ? "zh-CN" : "en",
-        locale: {
-          placeholder: walineI18n[routeLocale.value],
-          ...(walineOption.locale || {}),
-        },
-        emoji: [
-          "https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/weibo",
-          "https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/bilibili",
-        ],
-        dark: 'body[data-theme="dark"]',
-        ...walineOption,
-        el: "#waline-comment",
-        visitor: enablePageViews.value,
-      }) as WalineInstance;
+    const delayPromise = new Promise<void>((resolve) => {
+      setTimeout(() => resolve(), walineOption.delay);
+    });
+
+    const updateWaline = (): void => {
+      const timeID = (id = new Date().getTime());
+
+      if (waline)
+        setTimeout(() => {
+          if (timeID === id)
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            waline!.update({
+              lang: lang.value === "zh-CN" ? "zh-CN" : "en",
+              locale: {
+                ...walineLocale.value,
+                ...(walineOption.locale || {}),
+              },
+            });
+        }, walineOption.delay);
+      else
+        void Promise.all([import("@waline/client"), delayPromise]).then(
+          ([{ default: Waline }]) => {
+            if (timeID === id)
+              waline = Waline({
+                lang: lang.value === "zh-CN" ? "zh-CN" : "en",
+                locale: {
+                  ...walineLocale.value,
+                  ...(walineOption.locale || {}),
+                },
+                emoji: [
+                  "https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/weibo",
+                  "https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/bilibili",
+                ],
+                dark: 'body[data-theme="dark"]',
+                ...walineOption,
+                el: "#waline-comment",
+                visitor: enablePageViews.value,
+              }) as WalineInstance;
+          }
+        );
     };
 
     onMounted(() => {
-      if (enableWaline) timeout = setTimeout(() => initWaline(), 1000);
+      if (enableWaline) updateWaline();
     });
 
     onBeforeUnmount(() => {
-      if (timeout) clearTimeout(timeout);
       if (waline) waline.destroy();
     });
 
@@ -90,22 +111,7 @@ export default defineComponent({
       () => route.path,
       () =>
         // Refresh comment when navigating to a new page
-        nextTick(() => {
-          if (timeout) clearTimeout(timeout);
-
-          if (enableWaline)
-            timeout = setTimeout(() => {
-              if (waline)
-                waline.update({
-                  lang: lang.value === "zh-CN" ? "zh-CN" : "en",
-                  locale: {
-                    placeholder: walineI18n[routeLocale.value],
-                    ...(walineOption.locale || {}),
-                  },
-                });
-              else initWaline();
-            }, 1000);
-        })
+        nextTick(() => updateWaline())
     );
 
     return (): VNode =>

@@ -1,6 +1,6 @@
 import { resolvePagePermalink } from "@vuepress/core";
 import { generateRobotsTxt, generateSeo } from "./seo";
-import { appendMeta } from "./meta";
+import { appendSEO } from "./appendHead";
 
 import type { Plugin } from "@vuepress/core";
 import type { ExtendPage, PageSeoInfo, SeoContent, SeoOptions } from "./types";
@@ -10,7 +10,7 @@ export * from "./types";
 export const seoPlugin: Plugin<SeoOptions> = (options, app) => {
   const { base, themeConfig } = app.options;
 
-  const seoOption =
+  const seoOptions =
     Object.keys(options).length > 0
       ? options
       : (themeConfig.seo as SeoOptions) || {};
@@ -26,12 +26,12 @@ export const seoPlugin: Plugin<SeoOptions> = (options, app) => {
         permalink: resolvePagePermalink(page),
       };
       const metaContext: SeoContent = {
-        ...generateSeo(seoOption, base, pageSeoInfo),
-        ...(seoOption.seo ? seoOption.seo(pageSeoInfo) : {}),
+        ...generateSeo(seoOptions, base, pageSeoInfo),
+        ...(seoOptions.seo ? seoOptions.seo(pageSeoInfo) : {}),
       };
 
-      appendMeta(meta, metaContext, seoOption);
-      if (seoOption.customHead) seoOption.customHead(meta, pageSeoInfo);
+      appendSEO(meta, metaContext, seoOptions);
+      if (seoOptions.customHead) seoOptions.customHead(meta, pageSeoInfo);
 
       return { frontmatter: { ...page.frontmatter, head: meta } };
     },

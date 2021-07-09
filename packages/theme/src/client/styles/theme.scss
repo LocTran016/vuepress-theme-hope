@@ -3,7 +3,7 @@
 
 .hide-in-mobile {
   @media (max-width: config.$mobile) {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -61,7 +61,7 @@
     }
   }
 
-  // unknow container
+  // unknown container
   p.demo {
     padding: 1rem 1.5rem;
     border: 1px solid #ddd;

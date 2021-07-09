@@ -1,6 +1,6 @@
 {
   "name": "@mr-hope/vuepress-shared",
-  "version": "2.0.0-alpha.2",
+  "version": "2.0.0-alpha.5",
   "description": "Shared files for vuepress-theme-hope",
   "keywords": [
     "vuepress-theme-hope",
@@ -36,8 +36,8 @@
     "dev:rollup": "rollup -c -w"
   },
   "dependencies": {
-    "@types/webpack-dev-server": "^3.11.4",
-    "dayjs": "^1.10.5"
+    "@types/webpack-dev-server": "^3.11.5",
+    "dayjs": "^1.10.6"
   },
   "publishConfig": {
     "access": "public"

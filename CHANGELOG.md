@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.5](https://github.com/vuepress-theme-hope/vuepress-theme-hope/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2021-06-20)
+
+### Bug Fixes
+
+- **shared:** fix useCustomServer ([7d51d90](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/7d51d906dbb6846ccc36f44306447e662a9386df))
+
+### Features
+
+- **lightgallery:** remove video plugin ([11c66ce](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/11c66ce47412515cc10bba7ed451398b9e595558))
+- **theme:** update dropdown arrow ([51f1fe6](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/51f1fe6e868c0516dbfeedf8827017a1392969ef))
+- **theme:** update navbar ([d8a90cd](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/d8a90cd868582292a3a795cc1424948f56045c6a))
+
+# [2.0.0-alpha.4](https://github.com/vuepress-theme-hope/vuepress-theme-hope/compare/v2.0.0-alpha.3...v2.0.0-alpha.4) (2021-06-14)
+
+### Bug Fixes
+
+- **shared:** fix typos ([b89540f](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/b89540f7a423ce991c99c4e11660b41e9900b339))
+
+### Features
+
+- add lightgallery plugin ([884d45c](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/884d45cf98bf698738a5fea6977fbdb64c232b8e))
+- **comment2:** add meta tags for pageinfo ([f325305](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/f325305bf0427a4d5b84398f2837c1b601cff60d))
+
+# [2.0.0-alpha.3](https://github.com/vuepress-theme-hope/vuepress-theme-hope/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2021-06-13)
+
+### Bug Fixes
+
+- fix demo ([a8f2abb](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/a8f2abbf2a01a4438bd0b368d360d66db3d4b0ed))
+- **comment2:** correctly use reading time ([568a764](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/568a7647201a429ead66a7f905b90f44902d8e5d))
+- **components:** fixkeyboard event ([1044c45](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/1044c45ba5236a0fc55fbe9a96e9c68858e5ef2c))
+- **pwa2:** fix error ([2bd6edb](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/2bd6edb8422dca2f74b249ed40d2ac50365d6694))
+- **sass-palette:** fix palette plugin under vite ([0e97068](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/0e97068b1d145fb2ba50589cb0ac6a75c17a19c2))
+
+### Features
+
+- compatable with vite ([67d1ce0](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/67d1ce0fb081199d473b2b71e8e3a9e17946cbf2))
+- **comment2:** prebundle @waline/client ([c4d06c6](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/c4d06c61f0b0097fa2204efaf02ddaa375426385))
+- **md-enhance:** add layout ([dd66598](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/dd6659890e20093e811e5871d2922810610d5c06))
+- **md-enhance:** support i18n in details block ([72488b3](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/72488b372f2f585c345639dc8d8d9f6582378098))
+- **shared:** add addViteOptimizeDeps ([9dcae5b](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/9dcae5bb1542efff228fbb04d2388a65292cc667))
+- rebuild locales ([885ab30](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/885ab30af568537adfbc8e873795548865535fb5))
+- **shared:** add compareDate method ([0048e3d](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/0048e3dccc7a213dab1d5ced6d1e0896c13cdecc))
+- **shared:** add useCustomDevServer ([81b0421](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/81b0421585446d7b65599862c42dfbf543dc4bf7))
+- **theme:** add pwa plugin ([f45d1d2](https://github.com/vuepress-theme-hope/vuepress-theme-hope/commit/f45d1d25d7bc23cae6028b90ca13e056170c4545))
+
 # [2.0.0-alpha.2](https://github.com/vuepress-theme-hope/vuepress-theme-hope/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2021-06-11)
 
 ### Bug Fixes

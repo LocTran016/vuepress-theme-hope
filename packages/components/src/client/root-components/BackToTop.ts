@@ -1,4 +1,5 @@
-import { useRouteLocale, usePageFrontmatter } from "@vuepress/client";
+import { useLocaleConfig } from "@mr-hope/vuepress-shared/client";
+import { usePageFrontmatter } from "@vuepress/client";
 import { useThemeData } from "@vuepress/plugin-theme-data/lib/client";
 import debounce from "lodash.debounce";
 import {
@@ -20,8 +21,6 @@ import type { VNode } from "vue";
 export default defineComponent({
   name: "BackToTop",
 
-  components: { BacktoTopIcon },
-
   props: {
     threshold: { type: Number, default: 300 },
   },
@@ -29,7 +28,7 @@ export default defineComponent({
   setup(props) {
     const pageFrontmatter = usePageFrontmatter();
     const themeData = useThemeData();
-    const routeLocale = useRouteLocale();
+    const componentLocale = useLocaleConfig(componentI18n);
 
     /** Scroll distance */
     const scrollTop = ref(0);
@@ -83,8 +82,7 @@ export default defineComponent({
                   {
                     class: "back-to-top",
                     // hint text
-                    ariaLabel:
-                      componentI18n[routeLocale.value || "/"].backToTop,
+                    ariaLabel: componentLocale.value.backToTop,
                     "data-balloon-pos": "left",
                     // Scroll to top
                     onClick: () => {

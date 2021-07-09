@@ -5,6 +5,7 @@ export default [
     external: [
       "@mr-hope/vuepress-shared",
       "@vuepress/plugin-container",
+      "@vuepress/shared",
       "@vuepress/utils",
       "markdown-it/lib/token",
       "markdown-it/lib/helpers/parse_link_label",
@@ -46,6 +47,16 @@ export default [
       "@vuepress/client",
       /^reveal\.js/,
       "vue",
+      /\.scss$/,
+    ],
+    dtsExternal: [/\.scss$/],
+  }),
+  ...rollupTypescript("client/SlidePage", {
+    external: [
+      "@mr-hope/vuepress-shared/client",
+      "@vuepress/client",
+      "vue",
+      "vue-router",
       /\.scss$/,
     ],
     dtsExternal: [/\.scss$/],

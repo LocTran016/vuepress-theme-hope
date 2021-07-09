@@ -1,33 +1,25 @@
-import { usePageData, useRouteLocale } from "@vuepress/client";
-import { computed, defineComponent, h, inject } from "vue";
+import { useLocaleConfig } from "@mr-hope/vuepress-shared/client";
+import { usePageData } from "@vuepress/client";
+import { computed, defineComponent, h } from "vue";
 import { WordIcon } from "./icons";
-import { commentOptions, pageInfoI18n } from "../define";
+import { commentOptions, pageInfoI18n, readingTimeI18n } from "../define";
 
-import type {
-  ReadingTime,
-  ReadingTimeI18nConfig,
-} from "vuepress-plugin-reading-time2";
+import type { ReadingTime } from "vuepress-plugin-reading-time2";
 import type { VNode } from "vue";
 
 export default defineComponent({
   name: "ReadTimeInfo",
 
-  components: { WordIcon },
-
   setup() {
     const page = usePageData<{ readingTime: ReadingTime }>();
-    const routeLocale = useRouteLocale();
 
-    const word =
-      inject<Record<string, ReadingTimeI18nConfig>>("reading-time-i18n")?.[
-        routeLocale.value
-      ].word || "";
+    const pageInfoLocale = useLocaleConfig(pageInfoI18n);
+    const readingTimeLocale = useLocaleConfig(readingTimeI18n);
 
+    const words = computed(() => page.value.readingTime.words.toString());
     const wordText = computed(() =>
-      word.replace("$word", page.value.readingTime.words.toString())
+      readingTimeLocale.value.word.replace("$word", words.value)
     );
-
-    const hint = computed(() => pageInfoI18n[routeLocale.value].words);
 
     return (): VNode | null =>
       wordText.value
@@ -37,12 +29,19 @@ export default defineComponent({
               class: "words-info",
               ...(commentOptions.hint !== false
                 ? {
-                    ariaLabel: hint.value,
+                    ariaLabel: pageInfoLocale.value.words,
                     "data-balloon-pos": "down",
                   }
                 : {}),
             },
-            [h(WordIcon), h("span", wordText.value)]
+            [
+              h(WordIcon),
+              h("span", wordText.value),
+              h("meta", {
+                property: "wordCount",
+                content: words.value,
+              }),
+            ]
           )
         : null;
   },

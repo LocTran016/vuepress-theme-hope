@@ -11,7 +11,7 @@ export const resolveHTML = (html: string): string =>
     // remove anchor
     .replace(/<a href="#.*?">.*?<\/a>/gu, "")
     // remove html comment
-    .replace(/<!--.*?-->/gu, "")
+    .replace(/(<!--.*?-->)|(<!--[\S\s]+?-->)|(<!--[\S\s]*?$)/gu, "")
     // remove OutboundLink
     .replace(/<OutboundLink ?\/>/gu, "")
     // resolve RouterLink
@@ -28,9 +28,6 @@ export const resolveHTML = (html: string): string =>
     )
     // remove tex
     .replace(/<math[\s\S]*?\/math>/gu, "<i>Content not supported</i>");
-
-export const removeTemplate = (content: string): string =>
-  content.replace(/<template>.*<\/template>/, "$1");
 
 export const resolveUrl = (hostname: string, base = "", path = ""): string =>
   `${hostname}${
